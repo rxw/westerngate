@@ -1,3 +1,5 @@
+from logzero import logger
+
 class path_builder:
     def __init__(self):
         self.reserve_tokens = {
@@ -68,6 +70,22 @@ class path_builder:
                         # Make sure the path is not longer than the set max
                         if len(ethereum_path) + len(polygon_path) <= max_path_len:
                             candidate_paths.append(ethereum_path + polygon_path)
+
+        return candidate_paths
+
+    def single_chain_paths(self, amm_list, chain, max_path_len = 4):
+        # Start by getting all possible paths between our reserve tokens for  chain
+        reserve_paths = self._reserve_paths(amm_list, max_path_len - 1, chain)
+
+        candidate_paths = []
+
+        for start in self.reserve_tokens[chain].values():
+            for path in reserve_paths[start.lower()]:
+                # Check that the end is equal to the beginning
+                # Make sure the path is not longer than the set max
+                if len(path) <= max_path_len and start.lower() == path[-1]["token_out_id"].lower():
+                    candidate_paths.append(path)
+                        
 
         return candidate_paths
 
