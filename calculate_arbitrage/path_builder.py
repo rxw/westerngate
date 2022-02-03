@@ -71,6 +71,22 @@ class path_builder:
 
         return candidate_paths
 
+    def single_chain_paths(self, amm_list, chain, max_path_len = 4):
+        # Start by getting all possible paths between our reserve tokens for  chain
+        reserve_paths = self._reserve_paths(amm_list, max_path_len - 1, chain)
+
+        candidate_paths = []
+
+        for start in self.reserve_tokens[chain].values():
+            for path in reserve_paths[start.lower()]:
+                # Check that the end is equal to the beginning
+                # Make sure the path is not longer than the set max
+                if len(path) <= max_path_len:
+                    candidate_paths.append(path)
+                        
+
+        return candidate_paths
+
     def _reserve_paths(self, amm_list, max_path_len, chain):
 
         reserve_tokens = self.reserve_tokens[chain]

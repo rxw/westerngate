@@ -122,7 +122,7 @@ def calculate(subgraphs, eth_block_num=-1, poly_block_num=-1):
     polygon_lps = build_lps(polygon_dex_subgraphs, LP_PER_DEX_POLY, poly_block_num)
     
     logger.debug("Calculating Paths")
-    paths = builder.cross_chain_paths(ethereum_lps, polygon_lps, MAX_PATH_LENGTH)
+    paths = builder.single_chain_paths(ethereum_lps, "ethereum")
     logger.debug(f"Number of paths: {len(paths)}")
 
     # DB.add_paths(paths)
