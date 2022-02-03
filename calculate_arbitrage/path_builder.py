@@ -1,3 +1,5 @@
+from logzero import logger
+
 class path_builder:
     def __init__(self):
         self.reserve_tokens = {
@@ -81,7 +83,7 @@ class path_builder:
             for path in reserve_paths[start.lower()]:
                 # Check that the end is equal to the beginning
                 # Make sure the path is not longer than the set max
-                if len(path) <= max_path_len:
+                if len(path) <= max_path_len and start.lower() == path[-1]["token_out_id"].lower():
                     candidate_paths.append(path)
                         
 

@@ -18,16 +18,16 @@ MAX_PATH_LENGTH = 4
 DB = Database()
 
 
-def build_lps(subgraph, lp_per_dex, block_number=-1):
+def build_lps(subgraph, lp_per_dex, block_number=-1, provider_url = "https://api.thegraph.com/subgraphs/name/"):
     lps = []
     for dex_name in subgraph:
         try:
-            amms, block_number = get_largest_pairs(dex_name, lp_per_dex, block_number)
+            amms, block_number = get_largest_pairs(dex_name, lp_per_dex, block_number, provider_url = provider_url)
             lps += amms
         except:
             try:
                 amms, block_number = get_largest_pairs(
-                    dex_name, lp_per_dex, block_number
+                    dex_name, lp_per_dex, block_number, provider_url = provider_url
                 )
                 lps += amms
             except:
